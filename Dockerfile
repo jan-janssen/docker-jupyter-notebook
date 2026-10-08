@@ -67,7 +67,7 @@ RUN echo 'Sys.setenv(CONDA_PREFIX = "/opt/conda/envs/rlang-kernel")' >> /home/$N
 
 # Python packages
 RUN conda install --yes --quiet \
-    pyiron_atomistics=0.8.12 lammps gpaw sphinxdft nglview<4 requests-toolbelt boto git && conda clean -yt && \
+    pyiron_atomistics=0.8.12 lammps gpaw sphinxdft nglview=3.1.4 requests-toolbelt boto git && conda clean -yt && \
     pip install --no-cache-dir bioblend galaxy-ie-helpers
 
 # pyiron setup
