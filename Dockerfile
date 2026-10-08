@@ -65,6 +65,16 @@ RUN echo 'Sys.setenv(CONDA_PREFIX = "/opt/conda/envs/rlang-kernel")' >> /home/$N
     echo 'Sys.setenv(PROJ_LIB = "/opt/conda/envs/rlang-kernel/share/proj")' >> /home/$NB_USER/.Rprofile && \
     chown $NB_USER /home/$NB_USER/.Rprofile
 
+# Python packages
+RUN conda install --yes --quiet \
+    pyiron=0.8.12 lammps gpaw sphinxdft nglview<4 requests-toolbelt boto git && conda clean -yt && \
+    pip install --no-cache-dir bioblend galaxy-ie-helpers
+
+# pyiron setup
+COPY galaxytools.py ${HOME}/examples
+COPY first_steps.ipynb ${HOME}/examples
+COPY submit-to-galaxy.ipynb ${HOME}/examples
+
 ADD ./startup.sh /startup.sh
 #ADD ./monitor_traffic.sh /monitor_traffic.sh
 ADD ./get_notebook.py /get_notebook.py
@@ -91,7 +101,8 @@ ENV DEBUG=false \
     API_KEY=none \
     HISTORY_ID=none \
     REMOTE_HOST=none \
-    GALAXY_URL=none
+    GALAXY_URL=none \
+    CONDA_PREFIX=$CONDA_DIR
 
 # @jupyterlab/google-drive  not yet supported
 
